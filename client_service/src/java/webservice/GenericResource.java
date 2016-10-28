@@ -23,7 +23,7 @@ import org.json.JSONObject;
  *
  * @author JESS
  */
-@Path("generic/{test}")
+@Path("generic")
 public class GenericResource {
 
     @Context
@@ -41,15 +41,14 @@ public class GenericResource {
      */
     @GET
     @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-    public String getJson(@PathParam("test")String test) {
-        try {
+    public String getJson() { 
             JSONObject data = new JSONObject();
-            data.append("test", test);
-            return data.toString();
+        try {
+            data.append("test", "test");
         } catch (JSONException ex) {
             Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "test failed";
+            return data.toString();
     }
 
     /**
