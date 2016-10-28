@@ -172,7 +172,7 @@ public class Client {
         Statement st = (Statement) conn.createStatement();
         try{
             ResultSet rs = null;
-            if(req.toLowerCase().contains("select"))
+            if(req.toLowerCase().contains("select") || req.toLowerCase().contains("desc"))
             {
                 //retour.append("Action", "SELECT");
                 rs = st.executeQuery(req);
