@@ -115,10 +115,27 @@ public class TestResource {
     }
     
     @GET
-    @Path("{database}/{table}/ajouter")
+    @Path("{database}/{table}/ajouter/{params}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({"application/json"})
-     public String ajouter(@PathParam("database")String database,@PathParam("table")String table,JSONObject json) {
-           return "table"+json.keys().toString();
-       }
+     public String ajouter(@PathParam("database")String database,@PathParam("table")String table,@PathParam("params") String params) {
+         try {
+            JSONObject data = new JSONObject();
+            data.append("database", database);
+            String[] values= params.split("&");
+            String val="";
+            int i=0;
+             for (String value : values) {
+                 val +="'"+value+"'";
+                 val += (++i == values.length)? "":",";
+             }
+            data.append("requete", "insert into "+table+" values("+val+")");
+            message.envoyerMessage(data.toString());
+            String rec = message.getMessage();
+            JSONObject obj = new JSONObject(rec);
+            return obj.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Impossible d'effectuer la suppression !";
+     }
 }
