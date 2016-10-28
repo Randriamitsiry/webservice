@@ -5,6 +5,8 @@
  */
 package webservice;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -12,13 +14,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * REST Web Service
  *
  * @author JESS
  */
-@Path("generic")
+@Path("generic/{test}")
 public class GenericResource {
 
     @Context
@@ -36,9 +41,15 @@ public class GenericResource {
      */
     @GET
     @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-    public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+    public String getJson(@PathParam("test")String test) {
+        try {
+            JSONObject data = new JSONObject();
+            data.append("test", test);
+            return data.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "test failed";
     }
 
     /**
