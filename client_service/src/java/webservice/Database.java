@@ -5,6 +5,7 @@
  */
 package webservice;
 
+import com.geek.inside.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,45 +30,28 @@ import org.json.JSONObject;
 @Path("database")
 public class Database {
     
-    private static Socket socket;
-    //private Socket socketduserveur;
-    private  BufferedReader recu;
-    private  PrintWriter envoye;
-    String msg = new String();
+    private Message message;
     @Context
     private UriInfo context;
     
     public Database() {
-        if(socket == null)
-        {
-            try { 
-                socket = new Socket("localhost", 5001);
-            } catch (IOException ex) {
-                System.out.println("erreur de la creation du moteur de requete(socket)!");
-            }
-        }   
+        message = new Message();
     }
     @GET
     @Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
     public String list() { 
-            JSONObject data = new JSONObject();
         try {
+            JSONObject data = new JSONObject();
             data.append("database", "mysql");
             data.append("requete", "show databases");
-            envoyerMessage(data.toString());
-            try {
-                recu = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                msg = recu.readLine();
-            } catch (IOException ex) {
-                System.out.println("Erreur lors la lecture des reponses !");
-            }
+            message.envoyerMessage(data.toString());
+            String rec = message.getMessage();
             //recu = null;
-            JSONObject obj = new JSONObject(msg);
+            JSONObject obj = new JSONObject(rec);
             return obj.toString();
-        } catch (JSONException ex) {
-            System.out.println("Erreur interne lors du traitement des données !");
+        } catch (Exception e) {
         }
-            return data.toString();
+        return "Il n'y a aucun base de donnée au serveur de donnée!";
     }
     
     
@@ -83,8 +67,4 @@ public class Database {
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
     }*/
-
-    private void envoyerMessage(String toString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
