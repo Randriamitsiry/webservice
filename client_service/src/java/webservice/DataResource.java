@@ -58,23 +58,17 @@ public class DataResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("/connect/{database_name}")
-    @Produces("application/json")
-    public String getJson(@PathParam("database_name")String database_name) throws IOException {
-        //TODO return proper representation object
-         try {
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getJson() {
+        try {
+            //TODO return proper representation object
             JSONObject data = new JSONObject();
-            data.append("database", database_name);
-            envoyerMessage(data.toString());
-            recu = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            msg = recu.readLine();
-            //recu = null;
-            JSONObject obj = new JSONObject(msg);
-            return obj.toString();
+            data.append("test", "live_test");
+            return data.toString();
         } catch (JSONException ex) {
             Logger.getLogger(DataResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "tsa mety";
+        return null;
     }
 
     /**
@@ -88,7 +82,7 @@ public class DataResource {
     @GET
     @Path("/connect/{database_name}")
     @Produces("application/json")
-    public String getJson2(@PathParam("database_name")String database_name) throws IOException {
+    public String getJson(@PathParam("database_name")String database_name) throws IOException {
         try {
             JSONObject data = new JSONObject();
             data.append("database", database_name);
@@ -102,24 +96,6 @@ public class DataResource {
             Logger.getLogger(DataResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "tsa mety";
-    }
-    @GET
-    @Path("/get/{table}")
-    @Produces("application/json")
-    public String get(@PathParam("table")String table_name) throws IOException{    
-        org.json.JSONObject req = new org.json.JSONObject();
-            try {
-                req.append("requete", "SELECT * from "+table_name);
-            } catch (org.json.JSONException ex) {
-                
-            }
-            envoyerMessage(req.toString());
-            recu = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            msg = recu.readLine();
-            //recu = null;
-            System.out.println(msg);
-            return msg;
-            //return "ok";
     }
     public void envoyerMessage(String msg)
     {
