@@ -5,6 +5,16 @@
  */
 package geek_risk;
 
+import geek_risk.classe.Client;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.ServerSocket;
+import java.net.Socket;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author JESS
@@ -14,8 +24,34 @@ public class Geek_risk {
     /**
      * @param args the command line arguments
      */
+    static ServerSocket socketserver;
+    static Socket socketduserveur;
+    static BufferedReader recu;
+    static PrintWriter envoye;
+    static String msg;
+    static DatagramPacket paquetEnvoie;
+    static DatagramSocket conteneur;
+    static FileWriter writer = null;
+    static String reponse;
+    static int nbLigne;
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("En attente de connexion d'un client...");
+           try{
+                socketserver = new ServerSocket(5001);
+                while(true)
+                {
+                   socketduserveur = socketserver.accept();
+                   System.out.println("Client connecté");
+                   Client client = new Client();
+                   client.setSck(socketduserveur);
+                   client.start_thread();
+                }
+           }
+           catch(Exception ex)
+           {
+               JOptionPane.showMessageDialog(null, ex);
+           }
         
     }
     
