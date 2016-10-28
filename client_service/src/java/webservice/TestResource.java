@@ -91,7 +91,7 @@ public class TestResource {
     }
     
     @GET
-    @Path("{database}/{table}/{col}/{id}")
+    @Path("{database}/{table}/supprimer/{col}/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String supprimer(@PathParam("database") String database,@PathParam("table") String table,@PathParam("col") String col,@PathParam("id") String id)
     {
@@ -113,7 +113,7 @@ public class TestResource {
         }
         return "Impossible d'effectuer la suppression !";
     }
-     @GET
+    @GET
     @Path("{database}/{table}")
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@PathParam("database") String database,@PathParam("table") String table)
