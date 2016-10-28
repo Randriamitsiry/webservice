@@ -34,6 +34,7 @@ public class Geek_risk {
     static FileWriter writer = null;
     static String reponse;
     static int nbLigne;
+    static int nb_conncte = 0;
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.println("En attente de connexion d'un client...");
@@ -42,7 +43,9 @@ public class Geek_risk {
                 while(true)
                 {
                    socketduserveur = socketserver.accept();
+                   nb_conncte++;
                    System.out.println("Client connecté");
+                    System.out.println("Client numero :" +nb_conncte);
                    Client client = new Client();
                    client.setSck(socketduserveur);
                    client.start_thread();
