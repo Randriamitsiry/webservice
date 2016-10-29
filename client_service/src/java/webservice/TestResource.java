@@ -116,7 +116,7 @@ public class TestResource {
      @GET
     @Path("{database}/{table}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String supprimer(@PathParam("database") String database,@PathParam("table") String table)
+    public String get(@PathParam("database") String database,@PathParam("table") String table)
     {
         try {
             JSONObject data = new JSONObject();
