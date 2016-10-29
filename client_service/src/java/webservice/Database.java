@@ -16,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
@@ -54,7 +55,24 @@ public class Database {
         return "Il n'y a aucun base de donnée au serveur de donnée!";
     }
     
-    
+    @GET
+    @Path("create/{database}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String create(@PathParam("database") String database)
+    {
+        try {
+            JSONObject data = new JSONObject();
+            data.append("database", "mysql");
+            data.append("requete", "create database "+database);
+            message.envoyerMessage(data.toString());
+            String rec = message.getMessage();
+            //recu = null;
+            JSONObject obj = new JSONObject(rec);
+            return obj.toString();
+        } catch (Exception e) {
+        }
+        return "Impossible de créer ce base de donnée!";
+    }
    
     /*@GET
     @Produces(MediaType.APPLICATION_XML)

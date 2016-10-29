@@ -21,7 +21,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import org.json.*;
@@ -92,7 +91,7 @@ public class TestResource {
     }
     
     @GET
-    @Path("delete/{table}/supprimer/{col}/{id}")
+    @Path("delete/{table}/{param}")
     @Produces(MediaType.APPLICATION_JSON)
     public String supprimer(@PathParam("table") String table,@PathParam("col") String col,@PathParam("id") String id)
     {
@@ -172,4 +171,23 @@ public class TestResource {
         }
         return "Impossible d'effectuer la modification!";
      } 
+     @GET
+     @Path("get/{table}/{criteres}")
+     @Produces(MediaType.APPLICATION_JSON)
+     public String get(@PathParam("table")String table,@PathParam("criteres")String critere)
+     {
+         //on cite le critere comme ceci : nom=abned&prenom=
+         try {
+            JSONObject req_mod = new JSONObject();
+            req_mod.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
+            message.envoyerMessage(req_mod.toString());
+            String req = message.getMessage();
+            JSONObject obj = new JSONObject(req);
+            return obj.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Impossible la requete!";
+     }
+     
 }
