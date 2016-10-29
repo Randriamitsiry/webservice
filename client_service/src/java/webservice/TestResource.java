@@ -160,6 +160,5 @@ public class TestResource {
             Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "Impossible d'effectuer l'ajout!";
-     }
-    
+     }     
 }
