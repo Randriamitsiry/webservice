@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
@@ -140,25 +141,35 @@ public class TestResource {
     @GET
     @Path("add/{table}/{params}")
     @Produces(MediaType.APPLICATION_JSON)
-     public String ajouter(@PathParam("table")String table,@PathParam("params") String params) {
+     public String ajouter(@PathParam("table")String table,@PathParam("params") String param) {
          try {
-            JSONObject data = new JSONObject();
-            //data.append("database", database);
-            String[] values= params.split("&");
-            String val="";
-            int i=0;
-             for (String value : values) {
-                 val +="'"+value+"'";
-                 val += (++i == values.length)? "":",";
-             }
-            data.append("requete", "insert into "+table+" values("+val+")");
-            message.envoyerMessage(data.toString());
-            String rec = message.getMessage();
-            JSONObject obj = new JSONObject(rec);
+            JSONObject req_mod = new JSONObject();
+            req_mod.append("requete", "INSERT INTO "+table +param);
+            message.envoyerMessage(req_mod.toString());
+            String req = message.getMessage();
+            JSONObject obj = new JSONObject(req);
             return obj.toString();
+            
         } catch (JSONException ex) {
             Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "Impossible d'effectuer l'ajout!";
-     }     
+     }  
+     @GET
+     @Path("update/{table}/{param}")
+     @Produces(MediaType.APPLICATION_JSON)
+     public String modifier(@PathParam("table")String table,@PathParam("param") String param) {
+        try {
+            JSONObject req_mod = new JSONObject();
+            req_mod.append("requete", "UPDATE "+table +param);
+            message.envoyerMessage(req_mod.toString());
+            String req = message.getMessage();
+            JSONObject obj = new JSONObject(req);
+            return obj.toString();
+            
+        } catch (JSONException ex) {
+            Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Impossible d'effectuer la modification!";
+     } 
 }
