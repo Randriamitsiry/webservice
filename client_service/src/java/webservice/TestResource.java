@@ -113,6 +113,29 @@ public class TestResource {
         }
         return "Impossible d'effectuer la suppression !";
     }
+     @GET
+    @Path("{database}/{table}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String supprimer(@PathParam("database") String database,@PathParam("table") String table)
+    {
+        try {
+            JSONObject data = new JSONObject();
+            data.append("database", database);
+            data.append("requete", "SELECT * from "+table);
+            message.envoyerMessage(data.toString());
+            String rec = message.getMessage();
+            //recu = null;
+            if(rec == null || rec.equals(""))
+            {
+                return "Message reçu vide";
+            }
+            JSONObject obj = new JSONObject(rec);
+            return obj.toString();
+        } catch (JSONException ex) {
+            Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Impossible de recuperer le contenu de la table";
+    }
     
     @GET
     @Path("{database}/{table}/ajouter")
