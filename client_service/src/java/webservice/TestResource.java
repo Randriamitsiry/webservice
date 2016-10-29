@@ -91,7 +91,7 @@ public class TestResource {
     }
     
     @GET
-    @Path("delete/{table}/{param}")
+    @Path("delete/{table}/{col}/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String supprimer(@PathParam("table") String table,@PathParam("col") String col,@PathParam("id") String id)
     {
