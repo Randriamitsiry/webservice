@@ -91,13 +91,13 @@ public class TestResource {
     }
     
     @GET
-    @Path("{database}/{table}/supprimer/{col}/{id}")
+    @Path("delete/{table}/supprimer/{col}/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String supprimer(@PathParam("database") String database,@PathParam("table") String table,@PathParam("col") String col,@PathParam("id") String id)
+    public String supprimer(@PathParam("table") String table,@PathParam("col") String col,@PathParam("id") String id)
     {
         try {
             JSONObject data = new JSONObject();
-            data.append("database", database);
+           // data.append("database", database);
             data.append("requete", "delete from "+table+" where "+col+"= '"+id+"'");
             message.envoyerMessage(data.toString());
             String rec = message.getMessage();
@@ -114,13 +114,13 @@ public class TestResource {
         return "Impossible d'effectuer la suppression !";
     }
     @GET
-    @Path("{database}/{table}")
+    @Path("get/{table}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String get(@PathParam("database") String database,@PathParam("table") String table)
+    public String get(@PathParam("table") String table)
     {
         try {
             JSONObject data = new JSONObject();
-            data.append("database", database);
+           // data.append("database", database);
             data.append("requete", "SELECT * from "+table);
             message.envoyerMessage(data.toString());
             String rec = message.getMessage();
@@ -138,12 +138,12 @@ public class TestResource {
     }
     
     @GET
-    @Path("{database}/{table}/ajouter/{params}")
+    @Path("add/{table}/{params}")
     @Produces(MediaType.APPLICATION_JSON)
-     public String ajouter(@PathParam("database")String database,@PathParam("table")String table,@PathParam("params") String params) {
+     public String ajouter(@PathParam("table")String table,@PathParam("params") String params) {
          try {
             JSONObject data = new JSONObject();
-            data.append("database", database);
+            //data.append("database", database);
             String[] values= params.split("&");
             String val="";
             int i=0;
