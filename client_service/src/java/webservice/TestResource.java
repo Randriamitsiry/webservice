@@ -172,21 +172,22 @@ public class TestResource {
         return "Impossible d'effectuer la modification!";
      } 
      @GET
-     @Path("get/{table}/{criteres}")
+     @Path("get/{table}/{criteres: .*}")
      @Produces(MediaType.APPLICATION_JSON)
      public String get(@PathParam("table")String table,@PathParam("criteres")String critere)
      {
          //on cite le critere comme ceci : nom=abned&prenom=
          try {
-            JSONObject req_mod = new JSONObject();
-            req_mod.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
-            message.envoyerMessage(req_mod.toString());
-            String req = message.getMessage();
-            JSONObject obj = new JSONObject(req);
-            return obj.toString();
-        } catch (JSONException ex) {
-            Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         JSONObject req_mod = new JSONObject();
+         req_mod.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
+         //System.out.println("SELECT * FROM "+table+" WHERE "+critere);
+         message.envoyerMessage(req_mod.toString());
+         String req = message.getMessage();
+         JSONObject obj = new JSONObject(req);
+         return obj.toString();
+         } catch (JSONException ex) {
+         System.out.println(ex.getMessage());
+         }
         return "Impossible la requete!";
      }
      
