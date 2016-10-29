@@ -159,6 +159,7 @@ public class TestResource {
         } catch (JSONException ex) {
             Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "Impossible d'effectuer la suppression !";
+        return "Impossible d'effectuer l'ajout!";
      }
+    
 }
