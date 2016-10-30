@@ -76,8 +76,7 @@ public class Message {
     public String getMessage() {
         try {
             recu = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            message = recu.readLine();
-            
+            message = recu.readLine();            
         } catch (Exception e) {
         }
         return message;

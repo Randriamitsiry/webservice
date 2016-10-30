@@ -77,6 +77,7 @@ public class TestResource {
             return "Message reçu vide";
         }
         JSONObject obj = new JSONObject(rec);
+        System.out.println(obj.toString());
         return obj.toString();
     }
 
@@ -130,6 +131,8 @@ public class TestResource {
                 return "Message reçu vide";
             }
             JSONObject obj = new JSONObject(rec);
+            System.out.println(obj.toString());
+            System.out.println(obj.toString());
             return obj.toString();
         } catch (JSONException ex) {
             Logger.getLogger(TestResource.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,21 +177,29 @@ public class TestResource {
      @GET
      @Path("get/{table}/{criteres: .*}")
      @Produces(MediaType.APPLICATION_JSON)
-     public String get(@PathParam("table")String table,@PathParam("criteres")String critere)
+     public String get(@PathParam("table")String table,@PathParam("criteres")String critere) throws JSONException
      {
          //on cite le critere comme ceci : nom=abned&prenom=
-         try {
-         JSONObject req_mod = new JSONObject();
+         /*JSONObject req_mod = new JSONObject();
          req_mod.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
          //System.out.println("SELECT * FROM "+table+" WHERE "+critere);
          message.envoyerMessage(req_mod.toString());
          String req = message.getMessage();
          JSONObject obj = new JSONObject(req);
-         return obj.toString();
-         } catch (JSONException ex) {
-         System.out.println(ex.getMessage());
-         }
-        return "Impossible la requete!";
+        System.out.println("testtt "+ obj.toString());
+         return obj.toString();*/
+        JSONObject data = new JSONObject();
+        data.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
+        message.envoyerMessage(data.toString());
+        String rec = message.getMessage();
+        //recu = null;
+        if(rec == null || rec.equals(""))
+        {
+            return "Message reçu vide";
+        }
+        JSONObject obj = new JSONObject(rec);
+        System.out.println(obj.toString());
+        return obj.toString();
      }
      
 }
