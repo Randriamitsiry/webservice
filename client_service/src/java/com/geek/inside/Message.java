@@ -27,7 +27,7 @@ public class Message {
         if(socket == null)
         {
             try { 
-                socket = new Socket("localhost", 5001);
+                socket = new Socket("localhost", 5003);
             } catch (IOException ex) {
                 System.out.println("Impossible de créer la connection au serveur des données !");
             }

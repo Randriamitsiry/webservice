@@ -6,6 +6,7 @@
 package webservice;
 
 import com.geek.inside.Message;
+import com.geek.inside.TestHtml;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -188,18 +189,27 @@ public class TestResource {
          JSONObject obj = new JSONObject(req);
         System.out.println("testtt "+ obj.toString());
          return obj.toString();*/
-        JSONObject data = new JSONObject();
-        data.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
-        message.envoyerMessage(data.toString());
-        String rec = message.getMessage();
-        //recu = null;
-        if(rec == null || rec.equals(""))
+        if(TestHtml.isHtml(table) || TestHtml.isHtml(critere))
         {
-            return "Message reçu vide";
+            JSONObject obj = new JSONObject();
+            obj.append("error", "Le donnée que vous avez entrer n'est pas valide !");
+            return obj.toString();
         }
-        JSONObject obj = new JSONObject(rec);
-        System.out.println(obj.toString());
-        return obj.toString();
+        else
+        {
+            JSONObject data = new JSONObject();
+            data.append("requete", "SELECT * FROM "+table+" WHERE "+critere);
+            message.envoyerMessage(data.toString());
+            String rec = message.getMessage();
+            //recu = null;
+            if(rec == null || rec.equals(""))
+            {
+                return "Message reçu vide";
+            }
+            JSONObject obj = new JSONObject(rec);
+            System.out.println(obj.toString());
+            return obj.toString();
+        }
      }
      
 }
